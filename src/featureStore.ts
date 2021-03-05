@@ -17,39 +17,16 @@ class FeatureStore {
     constructor() { }
 
     async GetAllFeatures() {
-
         var queryResult = await featureSchema.find(function (err: any, features: any) {
             if (err) return console.error("Error" + err);
             console.log("Features " + features);
         });
-
         return queryResult;
-
-        // feature.find(function (err: any, features: any) {
-        //     if (err) return console.error(err);
-        //     console.log(features);
-        // });
-
-
-        // MongoClient.connect(this.url, { useUnifiedTopology: true }, function (err: any, db: any) {
-        //     if (err) throw err;
-        //     var dbo = db.db("mydb");
-        //     dbo.collection("featurelist").find().toArray(function (err: any, result: any) {
-        //         if (err) throw err;
-        //         console.log(result[0].feature_name);
-        //         queryResult = result[0].feature_name;
-        //         db.close();
-        //     });
-        // });
-
-        // console.log(queryResult);  
-
-
     }
 
-    GetFeatureById(req:any) {
-      var queryResult = featureSchema.findById(req.params.id);
-      return queryResult;
+    GetFeatureById(req: any) {
+        var queryResult = featureSchema.findById(req.params.id);
+        return queryResult;
     }
 
     async AddFeature(req: any) {
@@ -65,26 +42,15 @@ class FeatureStore {
             feature_owner: req.feature_owner,
             feature_data: req.feature_data
         });
-        try {
-            const savedFeature = await feature.save();
-            return savedFeature;
-        } catch (err) {
 
-        }
-    }
-
-    UpdateFeature() {
+        const savedFeature = await feature.save();
+        return savedFeature;
 
     }
 
     async RemoveFeature(req: any) {
-        try {
-            await featureSchema.findByIdAndRemove(req.params.id, function (err: any, docs: any) {
-
-            });
-        } catch (error) {
-
-        }
+        await featureSchema.findByIdAndRemove({ _id: req.params.id }, function (err: any, docs: any) {
+        });
     }
 
 }

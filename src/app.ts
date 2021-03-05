@@ -10,37 +10,44 @@ const featureStoreApiInstance = featureStoreInstanceFactory();
 app.use(express.json());
 
 app.get("/features/", async (req: any, res: any, next: any) => {
-    let result = await featureStoreApiInstance.GetAllFeatures();
-    res.send(result);
+    try {
+        let result = await featureStoreApiInstance.GetAllFeatures();
+        res.status(200).send(result);
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
     res.end();
 });
 
-// app.get("/feature/:id", (req: any, res: any, next: any) => {
-//     console.log("Http logging middleware");
-//     next();
-// }, (req: any, res: any, next: any) => {
-//     console.log("Http validating");
-//     next();
-// }, (req: any, res: any, next: any) => {
-//     res.send("Got a Get Request with id");
-//     res.end();
-// });
+app.get('/features/:id', async function (req, res) {
+    try {
+        let result = await featureStoreApiInstance.GetFeatureById(req);
+        res.status(200).send(result);
 
-app.post('/features/feature', async function (req, res) {
-    console.log(req);
-    
-    let result = await featureStoreApiInstance.AddFeature(req);
-    res.send(result);
+    } catch (error) {
+        res.status(400).send(error);
+    }
 });
 
-app.put('/features/:id', async function (req, res) {
-    let result = await featureStoreApiInstance.GetFeatureById(req);
-    res.send(result);
+app.post('/features/feature', async function (req, res) {
+    try {
+        let result = await featureStoreApiInstance.AddFeature(req);
+        res.status(200).send(result);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+
 });
 
 app.delete('/feature/:id', async function (req, res) {
-    let result = await featureStoreApiInstance.RemoveFeature(req);
-    res.send(result);
+    try {
+        let result = await featureStoreApiInstance.RemoveFeature(req);
+        res.status(200).send(result);
+
+    } catch (error) {
+        res.status(400).send(error);
+    }
 })
 
 //api
