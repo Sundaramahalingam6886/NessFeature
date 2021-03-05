@@ -42,7 +42,7 @@ class FeatureStore {
         //     });
         // });
 
-        // console.log(queryResult);
+        // console.log(queryResult);  
 
 
     }
